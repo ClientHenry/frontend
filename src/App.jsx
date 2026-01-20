@@ -74,18 +74,53 @@
 
 // export default App;
 
+// import axios from 'axios';
+
+// // 创建 axios 实例
+// const api = axios.create({
+//   // Vite 环境变量，部署到 Vercel 时会在后台配置这个值
+//   // baseURL: import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000', 
+//   baseURL: 'https://djangodrf-stil.onrender.com/api/books/',
+//   timeout: 5000, // 请求超时时间
+//   headers: {
+//     'Content-Type': 'application/json',
+//     'Accept': 'application/json',
+//   }
+// });
+
+// export default api;
+
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// 创建 axios 实例
-const api = axios.create({
-  // Vite 环境变量，部署到 Vercel 时会在后台配置这个值
-  // baseURL: import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000', 
-  baseURL: 'https://djangodrf-stil.onrender.com/api/books/',
-  timeout: 5000, // 请求超时时间
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-  }
-});
+function App() {
+  const [books, setBooks] = useState([]);
+  const [error, setError] = useState(null);
 
-export default api;
+  useEffect(() => {
+    // 直接写完整的后端地址，简单粗暴
+    // 注意：末尾一定要带斜杠 /
+    axios.get('https://djangodrf-stil.onrender.com/api/books/')
+      .then(res => {
+        setBooks(res.data);
+      })
+      .catch(err => {
+        console.error(err);
+        setError(err.message);
+      });
+  }, []);
+
+  return (
+    <div style={{ padding: '20px' }}>
+      <h1>图书列表 (测试版)</h1>
+      {error && <p style={{ color: 'red' }}>错误: {error}</p>}
+      <ul>
+        {books.map(book => (
+          <li key={book.id}>{book.title} - {book.author}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
