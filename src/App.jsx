@@ -79,7 +79,8 @@ import axios from 'axios';
 // 创建 axios 实例
 const api = axios.create({
   // Vite 环境变量，部署到 Vercel 时会在后台配置这个值
-  baseURL: import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000', 
+  // baseURL: import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000', 
+  baseURL: 'https://djangodrf-stil.onrender.com/api/books/',
   timeout: 5000, // 请求超时时间
   headers: {
     'Content-Type': 'application/json',
